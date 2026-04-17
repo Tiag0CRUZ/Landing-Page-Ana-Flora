@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clínica nutrição em Manaus </title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #b8955a;
+    --gold-light: #d4b080;
+    --dark: #111118;
+    --dark-2: #1c1c28;
+    --dark-3: #252535;
+    --light: #f5f3ee;
+    --light-2: #ede9e0;
+    --text: #2a2a35;
+    --text-muted: #7a7a88;
+    --white: #ffffff;
+    --nav-h: 70px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--light);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    background: var(--dark);
+    color: #aaa;
+    font-size: 11.5px;
+    letter-spacing: .08em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 48px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .topbar a { color: #ccc; text-decoration: none; transition: color .2s; }
+  .topbar a:hover { color: var(--gold); }
+  .topbar-phones { display: flex; gap: 28px; }
+
+  /* ── NAVBAR ── */
+  nav {
+    background: var(--dark-2);
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(184,149,90,.18);
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--white);
+    letter-spacing: .08em;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 36px;
+    align-items: center;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    transition: color .2s;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width .3s;
+  }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--white); }
+  .nav-links a:hover::after,
+  .nav-links a.active::after { width: 100%; }
+
+  /* dropdown */
+  .has-dropdown { position: relative; }
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--dark-3);
+    border: 1px solid rgba(184,149,90,.2);
+    border-radius: 6px;
+    min-width: 220px;
+    padding: 10px 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s, transform .2s;
+    transform: translateX(-50%) translateY(-6px);
+  }
+  .has-dropdown:hover .dropdown {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(-50%) translateY(0);
+  }
+  .dropdown a {
+    display: block;
+    padding: 9px 20px;
+    color: rgba(255,255,255,.7) !important;
+    font-size: 11.5px !important;
+    letter-spacing: .09em !important;
+    text-transform: uppercase !important;
+    border-left: 2px solid transparent;
+    transition: all .2s !important;
+  }
+  .dropdown a::after { display: none !important; }
+  .dropdown a:hover {
+    color: var(--gold) !important;
+    border-left-color: var(--gold);
+    padding-left: 26px;
+    background: rgba(255,255,255,.03);
+  }
+
+  .btn-agenda {
+    background: var(--gold);
+    color: var(--dark) !important;
+    padding: 9px 22px !important;
+    border-radius: 3px !important;
+    font-weight: 600 !important;
+    font-size: 11px !important;
+    letter-spacing: .14em !important;
+    text-transform: uppercase !important;
+    transition: background .2s, transform .15s !important;
+    white-space: nowrap;
+  }
+  .btn-agenda::after { display: none !important; }
+  .btn-agenda:hover {
+    background: var(--gold-light) !important;
+    transform: translateY(-1px);
+    color: var(--dark) !important;
+  }
+
+  /* hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .hamburger span {
+    width: 24px; height: 2px;
+    background: var(--white);
+    transition: all .3s;
+    display: block;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; animation: fadeIn .4s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── HERO (HOME) ── */
+  .hero {
+    background: var(--dark-2);
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 80px 24px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 40%, rgba(184,149,90,.08) 0%, transparent 70%),
+      linear-gradient(180deg, #0d0d18 0%, #1a1a2e 50%, #0f0f1a 100%);
+  }
+  .hero-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(184,149,90,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,149,90,.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 700px; }
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: .4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 88px);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,.5);
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--dark);
+    padding: 14px 36px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background .2s, transform .15s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    border: 1px solid rgba(255,255,255,.3);
+    color: rgba(255,255,255,.8);
+    padding: 14px 36px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color .2s, color .2s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* specialidades */
+  .section { padding: 80px 48px; }
+  .section-tag {
+    font-size: 10px;
+    letter-spacing: .35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 48px;
+    line-height: 1.2;
+  }
+  .section-title.light { color: var(--white); }
+
+  .specialties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: rgba(0,0,0,.08);
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 1100px;
+  }
+  .specialty-card {
+    background: var(--white);
+    padding: 36px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    cursor: pointer;
+    transition: background .2s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .specialty-card:hover { background: var(--light); }
+  .specialty-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--light-2);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .specialty-icon svg { width: 20px; height: 20px; }
+  .specialty-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .specialty-card p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .specialty-arrow {
+    font-size: 18px;
+    color: var(--gold);
+    margin-top: 4px;
+    align-self: flex-start;
+  }
+
+  /* dark section */
+  .section-dark {
+    background: var(--dark-2);
+    padding: 80px 48px;
+  }
+  .team-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    max-width: 1100px;
+  }
+  .team-intro-text p {
+    color: rgba(255,255,255,.65);
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 32px;
+  }
+
+  /* REMOVER */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
+  }
+  .blog-card {
+    background: var(--white);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,.07);
+    transition: transform .2s, box-shadow .2s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .blog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.1); }
+  .blog-card-img {
+    height: 180px;
+    background: var(--light-2);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .blog-card-img svg { opacity: .25; width: 48px; }
+  .blog-card-body { padding: 24px; }
+  .blog-card-date { font-size: 11px; color: var(--gold); letter-spacing: .08em; margin-bottom: 10px; font-weight: 500; }
+  .blog-card h3 { font-size: 15px; font-weight: 600; line-height: 1.4; margin-bottom: 8px; }
+  .blog-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* cta */
+  .cta-strip {
+    background: var(--gold);
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .cta-strip h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--dark);
+  }
+  .btn-dark {
+    background: var(--dark);
+    color: var(--white);
+    padding: 14px 32px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background .2s;
+    white-space: nowrap;
+  }
+  .btn-dark:hover { background: var(--dark-3); }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    background: var(--dark-2);
+    padding: 72px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 20% 50%, rgba(184,149,90,.07) 0%, transparent 70%);
+  }
+  .page-hero-content { position: relative; z-index: 1; max-width: 640px; }
+  .page-hero .section-tag { margin-bottom: 14px; }
+  .page-hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .page-hero p {
+    color: rgba(255,255,255,.55);
+    font-size: 14px;
+    line-height: 1.8;
+    max-width: 520px;
+  }
+
+  /* ── CLINICA PAGE ── */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    max-width: 1100px;
+  }
+  .team-member {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,.07);
+    overflow: hidden;
+    transition: box-shadow .2s;
+  }
+  .team-member:hover { box-shadow: 0 8px 32px rgba(0,0,0,.09); }
+  .member-avatar {
+    height: 200px;
+    background: linear-gradient(135deg, var(--light-2) 0%, var(--light) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    color: var(--gold);
+    font-weight: 300;
+  }
+  .member-body { padding: 28px; }
+  .member-body h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .member-specialty {
+    font-size: 11px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  .member-credentials {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .member-credentials li {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .member-credentials li::before {
+    content: '—';
+    position: absolute; left: 0;
+    color: var(--gold);
+    font-size: 10px;
+    top: 3px;
+  }
+
+  /* clinica intro */
+  .clinica-about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+    max-width: 1100px;
+    margin-bottom: 64px;
+  }
+  .clinica-about p {
+    font-size: 15px;
+    line-height: 1.85;
+    color: #555;
+    margin-bottom: 16px;
+  }
+  .stat-row {
+    display: flex;
+    gap: 40px;
+    margin-top: 32px;
+  }
+  .stat { border-left: 2px solid var(--gold); padding-left: 16px; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-label { font-size: 11px; color: var(--text-muted); letter-spacing: .1em; text-transform: uppercase; }
+
+  /* ── TRATAMENTOS PAGE ── */
+  .treatments-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
+  }
+  .treatment-card {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,.07);
+    padding: 32px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    transition: box-shadow .2s, transform .2s;
+    cursor: pointer;
+  }
+  .treatment-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.09); transform: translateY(-2px); }
+  .treatment-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--light-2);
+    line-height: 1;
+    min-width: 42px;
+  }
+  .treatment-body h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .treatment-body p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .treatment-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .tag {
+    background: var(--light);
+    border: 1px solid var(--light-2);
+    color: var(--text-muted);
+    font-size: 10.5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: .05em;
+  }
+
+  /* ── CONTATO PAGE ── */
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    max-width: 1000px;
+  }
+  .contact-card {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,.07);
+    padding: 36px;
+  }
+  .contact-card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 28px;
+    color: var(--text);
+  }
+  .hours-list { list-style: none; }
+  .hours-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--light-2);
+    font-size: 14px;
+  }
+  .hours-list li:last-child { border-bottom: none; }
+  .hours-day { color: var(--text-muted); }
+  .hours-time { font-weight: 500; color: var(--text); }
+  .hours-closed { color: var(--gold); font-style: italic; }
+
+  .address-section { margin-top: 28px; }
+  .address-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .address-section p { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
+  .address-section .tag-label {
+    font-size: 10px;
+    letter-spacing: .25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--light-2);
+    text-decoration: none;
+    color: inherit;
+    transition: gap .2s;
+  }
+  .contact-link:last-child { border-bottom: none; }
+  .contact-link:hover { gap: 20px; }
+  .contact-link-icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-link-icon.green { background: #e8f5e9; }
+  .contact-link-icon.blue { background: #e3f0fb; }
+  .contact-link-label { font-size: 11px; color: var(--text-muted); margin-bottom: 2px; letter-spacing: .08em; text-transform: uppercase; }
+  .contact-link-value { font-size: 16px; font-weight: 500; color: var(--text); }
+
+  .map-box {
+    background: var(--light-2);
+    border-radius: 8px;
+    height: 200px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .map-pin {
+    position: absolute;
+    background: var(--white);
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text);
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.12);
+  }
+
+  /* ── BLOG PAGE ── */
+  .blog-hero-post {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,.07);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 0;
+    margin-bottom: 40px;
+    max-width: 1100px;
+    transition: box-shadow .2s;
+  }
+  .blog-hero-post:hover { box-shadow: 0 8px 32px rgba(0,0,0,.09); }
+  .blog-hero-img {
+    background: var(--light-2);
+    display: flex; align-items: center; justify-content: center;
+    min-height: 280px;
+  }
+  .blog-hero-body { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+  .blog-hero-body .blog-card-date { margin-bottom: 14px; }
+  .blog-hero-body h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .blog-hero-body p { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+  .btn-read {
+    display: inline-block;
+    border-bottom: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding-bottom: 2px;
+    align-self: flex-start;
+    transition: opacity .2s;
+  }
+  .btn-read:hover { opacity: .7; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    color: rgba(255,255,255,.45);
+    padding: 48px;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 40px;
+  }
+  .footer-brand .logo { font-size: 20px; display: block; margin-bottom: 14px; }
+  .footer-brand p { font-size: 12.5px; line-height: 1.7; color: rgba(255,255,255,.4); max-width: 240px; }
+  .footer-col h4 {
+    font-size: 10px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col li { font-size: 12.5px; color: rgba(255,255,255,.45); cursor: pointer; transition: color .2s; }
+  .footer-col li:hover { color: var(--white); }
+  .footer-col a { color: rgba(255,255,255,.45); text-decoration: none; font-size: 12.5px; transition: color .2s; }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .footer-bottom a { color: var(--gold); text-decoration: none; }
+
+  /* ── RESPONSIVIDADE ── */
+  @media (max-width: 768px) {
+    .topbar { padding: 7px 20px; }
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .section, .section-dark { padding: 56px 20px; }
+    .page-hero { padding: 56px 20px 40px; }
+    .clinica-about, .contact-layout, .team-intro { grid-template-columns: 1fr; gap: 32px; }
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .blog-hero-post { grid-template-columns: 1fr; }
+    .blog-hero-img { min-height: 180px; }
+    .hero { min-height: 70vh; }
+    .cta-strip { padding: 36px 20px; }
+    .stat-row { gap: 24px; }
+    footer { padding: 40px 20px; }
+  }
+
+  nav.open .nav-links {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--nav-h);
+    left: 0; right: 0;
+    background: var(--dark-2);
+    padding: 20px 20px 28px;
+    gap: 20px;
+    border-bottom: 1px solid rgba(184,149,90,.2);
+  }
+  nav.open { position: fixed; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <span>Nutrição e Estética</span>
+  <div class="topbar-phones">
+    <a href="tel:+559200000000">(92) 99999999</a>
+    <a href="tel:+559200000000">(92) 99999999</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="logo" href="#" onclick="showPage('home')">nutrição <span>&amp;</span> nutrição</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#" class="active" onclick="showPage('home')" data-page="home">Home</a></li>
+    <li><a href="#" onclick="showPage('clinica')" data-page="clinica">Clínica</a></li>
+    <li class="has-dropdown">
+      <a href="#" onclick="showPage('tratamentos')" data-page="tratamentos">Tratamentos</a>
+      <div class="dropdown">
+        <a href="#" onclick="showPage('tratamentos')">nutrição p/ Cabelos</a>
+        <a href="#" onclick="showPage('tratamentos')">nutrição corporal</a>
+        <a href="#" onclick="showPage('tratamentos')">nutricao p/ Unhas</a>
+        <a href="#" onclick="showPage('tratamentos')">nutricao Cirúrgica</a>
+        <a href="#" onclick="showPage('tratamentos')">nutricao infantil</a>
+        <a href="#" onclick="showPage('tratamentos')">Nutrição esportiva</a>
+      </div>
+    </li>
+    <li><a href="#" onclick="showPage('contato')" data-page="contato">Contato</a></li>
+    <li><a href="linkdowhats" target="_blank" class="btn-agenda">Agendar Consulta</a></li>
+  </ul>
+
+</nav>
+
+<!-- ══════════════ HOME ══════════════ -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Nutrição &amp; Estética · Manaus</p>
+      <h1>nome  <br><em>&amp; e logo</em></h1>
+      <p class="hero-sub"> Nutrição</p>
+      <div class="hero-btns">
+        <a href="https://api.whatsapp.com/send?phone=5592984122505&text=Oi%2C+estava+no+site+e+gostaria+de+agendar+uma+consulta." target="_blank" class="btn-primary">Agendar Consulta</a>
+        <a href="#" class="btn-outline" onclick="showPage('clinica')">Conheça nossa clinica</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" style="background:var(--light);">
+    <p class="section-tag">Especialidades</p>
+    <h2 class="section-title">Especialidades </h2>
+    <div class="specialties-grid">
+      <a href="#" class="specialty-card" onclick="showPage('tratamentos')">
+        <div class="specialty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M12 2C9 2 6 5 6 9c0 4 3 8 6 11 3-3 6-7 6-11 0-4-3-7-6-7z"/></svg>
+        </div>
+        <h3>cabelo</h3>
+        <p>contextualizar de forma curta ou remover.</p>
+      </a>
+      <a href="#" class="specialty-card" onclick="showPage('tratamentos')">
+        <div class="specialty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        </div>
+        <h3> Facial</h3>
+        <p>contextualizar de forma curta ou remover.</p>
+      </a>
+      <a href="#" class="specialty-card" onclick="showPage('tratamentos')">
+        <div class="specialty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <h3> Corporal</h3>
+        <p>contextualizar de forma curta ou remover.</p>
+      </a>
+      <a href="#" class="specialty-card" onclick="showPage('tratamentos')">
+        <div class="specialty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M12 22V12m0 0c-3 0-5-2-5-5V4h10v3c0 3-2 5-5 5z"/></svg>
+        </div>
+        <h3> Unhas</h3>
+        <p>contextualizar de forma curta ou remover.</p>
+      </a>
+      <a href="#" class="specialty-card" onclick="showPage('tratamentos')">
+        <div class="specialty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        </div>
+        <h3> Cirúrgica</h3>
+        <p>contextualizar de forma curta ou remover.</p>
+      </a>
+      <a href="#" class="specialty-card" onclick="showPage('tratamentos')">
+        <div class="specialty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M4.5 12.5l3 3 5-5M12 3c5 0 9 4 9 9s-4 9-9 9-9-4-9-9 4-9 9-9z"/></svg>
+        </div>
+        <h3>Endocrinologia</h3>
+        <p>contextualizar de forma curta ou remover.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="section-dark">
+    <div class="team-intro">
+      <div class="team-intro-text">
+        <p class="section-tag">Clínica nutricional &amp; nome</p>
+        <h2 class="section-title light">Conheça mais sobre mim.</h2>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum totam quidem adipisci.</p>
+        <p>magnam iusto fugiat ab nobis aspernatur minima sapiente, reiciendis tempore! Quos accusamus ad culpa porro delectus repellat nihil.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(184,149,90,.15);border-radius:8px;padding:28px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--gold);font-weight:300;line-height:1;">foto</div>
+          <div style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:6px;">ou frase</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(184,149,90,.15);border-radius:8px;padding:28px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--gold);font-weight:300;line-height:1;">foto+</div>
+          <div style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:6px;">ou frase</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="cta-strip">
+    <h2>Agende sua Consulta via WhatsApp</h2>
+    <a href="linkdowhatsapp" target="_blank" class="btn-dark">Agendar Agora</a>
+  </div>
+</div>
+
+<!-- ══════════════ CLÍNICA ══════════════ -->
+<div class="page" id="page-clinica">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <p class="section-tag">nome &amp; logo</p>
+      <h1>Nossa Clínica</h1>
+      <p>Conheça mais sobre nosso espaço.</p>
+    </div>
+  </div>
+
+  <section class="section" style="background:var(--light);">
+    <div class="clinica-about">
+      <div>
+        <p class="section-tag">Sobre Nós</p>
+        <h2 class="section-title">Uma equipe apaixonada pela Saúde e Bem-estar.</h2>
+      </div>
+      <div>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, voluptatem? Dolor sunt soluta tenetur autem quo ipsa ducimus cum recusandae inventore! Eligendi ea, assumenda consequuntur voluptatum atque fugit harum odit.</p>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus esse consequuntur expedita sed, praesentium alias sint perspiciatis earum nesciunt.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus modi blanditiis aliquam ad omnis? Doloremque et odit reiciendis architecto.</p>
+        <div class="stat-row">
+          <div class="stat">
+            <div class="stat-num">10</div>
+            <div class="stat-label">atendimentos diarios</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">horarios</div>
+            <div class="stat-label">exclusivos</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">8h</div>
+            <div class="stat-label">Seg–Sex</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-tag">espaço</p>
+    <h2 class="section-title">Fotos internas do local. passando em carrossel. </h2>
+    
+  </section>
+
+</div>
+
+<!-- ══════════════ TRATAMENTOS ══════════════ -->
+<div class="page" id="page-tratamentos">
+
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <p class="section-tag">nome &amp; logo</p>
+      <h1>Tratamentos</h1>
+      <p>nutrição para pele, cabelos, unhas e bem-estar geral.</p>
+    </div>
+  </div>
+  <section class="section" style="background:var(--light);">
+    
+    <div class="treatments-list">
+      <div class="treatment-card">
+        <div class="treatment-num">01</div>
+        <div class="treatment-body">
+          <h3>nutrição Capilar</h3>
+          <p>texto explicativo curto.</p>
+        </div>
+      </div>
+      <div class="treatment-card">
+        <div class="treatment-num">02</div>
+        <div class="treatment-body">
+          <h3>nutrição corporal</h3>
+          <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+        </div>
+      </div>
+      <div class="treatment-card">
+        <div class="treatment-num">03</div>
+        <div class="treatment-body">
+          <h3>emagrecimento</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam id lum exercitationem eaque hic!</p>
+        </div>
+      </div>
+      <div class="treatment-card">
+        <div class="treatment-num">04</div>
+        <div class="treatment-body">
+          <h3>ganho de massa</h3>
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, quas? </p>
+        </div>
+      </div>
+      <div class="treatment-card">
+        <div class="treatment-num">05</div>
+        <div class="treatment-body">
+          <h3>Nutrição Cirúrgica</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam id lum exercitationem eaque hic!</p>
+          <div class="treatment-tags">
+            <span class="tag">Câncer de Pele</span>
+            <span class="tag">Lesões</span>
+          </div>
+        </div>
+      </div>
+      <div class="treatment-card">
+        <div class="treatment-num">06</div>
+        <div class="treatment-body">
+          <h3>Nutrição INFANTIL</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam id lum exercitationem eaque hic!</p>
+          <div class="treatment-tags">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-strip">
+    <h2>Tem dúvidas sobre qual tratamento é ideal?</h2>
+    <a href="https://api.whatsapp.com/send" target="_blank" class="btn-dark">Fale Conosco</a>
+  </div>
+
+</div>
+
+<!-- ══════════════ CONTATO ══════════════ -->
+<div class="page" id="page-contato">
+
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <p class="section-tag">Contato</p>
+      <h1>Agende sua Consulta</h1>
+    </div>
+  </div>
+
+  <section class="section" style="background:var(--light);">
+    <div class="contact-layout">
+
+      <div class="contact-card">
+        <h2>Horários de Funcionamento</h2>
+        <ul class="hours-list">
+          <li>
+            <span class="hours-day">Segunda - Sexta</span>
+            <span class="hours-time">8h - 18h</span>
+          </li>
+          <li>
+            <span class="hours-day">Sábado</span>
+            <span class="hours-time">8h - 12h</span>
+          </li>
+          <li>
+            <span class="hours-day">Domingo</span>
+            <span class="hours-closed">Fechado</span>
+          </li>
+        </ul>
+
+        <div class="address-section">
+          <h3>nutrição &amp; Estética</h3>
+          <br>
+          <p><strong>Ed. </strong> — Sala 000</p>
+          <br>
+          <p>Av. , 000, Adrianópolis.</p>
+          <p>CEP: 69050-010 — Manaus, AM.</p>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <div class="map-box">
+          <svg width="100" height="100" viewBox="0 0 100 100" fill="none" opacity=".2">
+            <circle cx="50" cy="38" r="16" stroke="#b8955a" stroke-width="2.5"/>
+            <circle cx="50" cy="38" r="5" fill="#b8955a"/>
+            <path d="M50 54 C50 54 28 76 28 86" stroke="#b8955a" stroke-width="2" stroke-linecap="round"/>
+            <path d="M50 54 C50 54 72 76 72 86" stroke="#b8955a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="16" y1="86" x2="84" y2="86" stroke="#b8955a" stroke-width="2"/>
+          </svg>
+          <div class="map-pin">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Ed., Sala 000
+          </div>
+        </div>
+
+        <span class="tag-label">Contatos</span>
+
+        <a href="https://api.whatsapp.com/send" target="_blank" class="contact-link">
+          <div class="contact-link-icon green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          </div>
+          <div>
+            <p class="contact-link-label">WhatsApp</p>
+            <p class="contact-link-value">(92) 00000000</p>
+          </div>
+        </a>
+
+        <a href="tel:+559236593540" class="contact-link">
+          <div class="contact-link-icon blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.6 1.28h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 9a16 16 0 006 6l1.27-.85a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div>
+            <p class="contact-link-label">Telefone</p>
+            <p class="contact-link-value">(92) 00000000</p>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- ══════════════ BLOG ══════════════ 
+<div class="page" id="page-blog">
+
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <p class="section-tag">Conteúdo</p>
+      <h1>Blog</h1>
+      <p>Artigos, novidades e dicas da nossa equipe de especialistas.</p>
+    </div>
+  </div>
+
+  <section class="section" style="background:var(--light);">
+
+    <div class="blog-hero-post">
+      <div class="blog-hero-img">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" opacity=".25">
+          <rect x="12" y="12" width="48" height="48" rx="6" stroke="var(--gold)" stroke-width="2"/>
+          <path d="M22 30h28M22 42h16" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="blog-hero-body">
+        <p class="blog-card-date">17 de dezembro de 2022</p>
+        <h2>Como é feito o Transplante de Sobrancelhas</h2>
+        <p>Você sabe como é feito o Transplante de Sobrancelhas? Se tem esta curiosidade, vamos te mostrar agora como é realizado este procedimento. O transplante de sobrancelhas é uma técnica moderna e precisa.</p>
+        <a href="#" class="btn-read">Leia Mais</a>
+      </div>
+    </div>
+
+    <div class="blog-grid">
+      <a class="blog-card" href="#">
+        <div class="blog-card-img">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity=".3"><circle cx="24" cy="24" r="16" stroke="var(--gold)" stroke-width="2"/><path d="M24 16v8l6 4" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="blog-card-body">
+          <p class="blog-card-date">16 de dezembro de 2022</p>
+          <h3>Entenda Como Funciona o Ultraformer</h3>
+          <p>O Ultraformer é um novo tipo de equipamento de ultrassom micro e macro focado.</p>
+        </div>
+      </a>
+      <a class="blog-card" href="#">
+        <div class="blog-card-img">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity=".3"><path d="M24 8C17 8 12 14 12 20s12 20 12 20 12-14 12-20S31 8 24 8z" stroke="var(--gold)" stroke-width="2"/></svg>
+        </div>
+        <div class="blog-card-body">
+          <p class="blog-card-date">18 de outubro de 2022</p>
+          <h3>Conheça os Estágios da Calvície Masculina</h3>
+          <p>A Calvície Masculina, também conhecida como Alopecia androgenética, é geneticamente determinada.</p>
+        </div>
+      </a>
+      <a class="blog-card" href="#">
+        <div class="blog-card-img">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity=".3"><rect x="10" y="10" width="28" height="28" rx="4" stroke="var(--gold)" stroke-width="2"/><path d="M18 22h12M18 30h8" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="blog-card-body">
+          <p class="blog-card-date">03 de maio de 2022</p>
+          <h3>Botox Além do Básico</h3>
+          <p>A Toxina Botulínica diminui a força dos músculos e, com isso, atenua as rugas que se formam ao longo dos anos.</p>
+        </div>
+      </a>
+      <a class="blog-card" href="#">
+        <div class="blog-card-img">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity=".3"><circle cx="24" cy="20" r="8" stroke="var(--gold)" stroke-width="2"/><path d="M10 40c0-7.7 6.3-14 14-14s14 6.3 14 14" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="blog-card-body">
+          <p class="blog-card-date">26 de janeiro de 2022</p>
+          <h3>Efeito Top Model Look</h3>
+          <p>Você já ouviu falar em preenchimento tipo TOP MODEL LOOK? Essa é uma técnica muito usada na Dermatologia.</p>
+        </div>
+      </a>
+      <a class="blog-card" href="#">
+        <div class="blog-card-img">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity=".3"><path d="M36 14H12v20h24V14z" stroke="var(--gold)" stroke-width="2"/><path d="M20 22h8M20 30h5" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="blog-card-body">
+          <p class="blog-card-date">14 de setembro de 2021</p>
+          <h3>Ultraformer III – Benefícios e indicações</h3>
+          <p>Ultraformer III é a última palavra para tratamento da flacidez, contorno corporal e ancoragem muscular.</p>
+        </div>
+      </a>
+      <a class="blog-card" href="#">
+        <div class="blog-card-img">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity=".3"><circle cx="24" cy="18" r="8" stroke="var(--gold)" stroke-width="2"/><path d="M24 30v8M20 36l4 4 4-4" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="blog-card-body">
+          <p class="blog-card-date">12 de agosto de 2021</p>
+          <h3>Entrevista com Dr. Pablo Cirino</h3>
+          <p>Nosso cabelo pode mostrar muito mais do que os olhos veem — reflexo de todo funcionamento interno.</p>
+        </div>
+      </a>
+    </div>
+
+  </section>
+
+</div>-->
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="logo" href="#" onclick="showPage('home')">nutrição <span style="color:var(--gold)">&amp;</span> Estética</a>
+      <p>Clínica especializada em Nutrição em Manaus, AM.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navegação</h4>
+      <ul>
+        <li onclick="showPage('home')">Home</li>
+        <li onclick="showPage('clinica')">Clínica</li>
+        <li onclick="showPage('tratamentos')">Tratamentos</li>
+        <li onclick="showPage('contato')">Contato</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Endereço</h4>
+      <ul>
+        <li>rua</li>
+        <li>numero 00</li>
+        <li> — Manaus, AM</li>
+        <li>CEP: 69050-010</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contatos</h4>
+      <ul>
+        <li><a href="https://api.whatsapp.com" target="_blank">WhatsApp: (92) 999999999</a></li>
+        <li><a href="tel:+5592999999999">Telefone: (92) 00000000</a></li>
+        <li>Seg–Sex: 8h–18h</li>
+        <li>Sábado: 8h–12h</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2023 nutrição &amp; Estética</span>
+  </div>
+</footer>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const page = document.getElementById('page-' + id);
+    if (page) page.classList.add('active');
+
+    document.querySelectorAll('.nav-links a[data-page]').forEach(a => {
+      a.classList.toggle('active', a.dataset.page === id);
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const nav = document.getElementById('main-nav');
+    nav.classList.remove('open');
+
+    return false;
+  }
+
+  function toggleMenu() {
+    document.getElementById('main-nav').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
