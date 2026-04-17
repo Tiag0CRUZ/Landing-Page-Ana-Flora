@@ -6,7 +6,7 @@
 <title>Clínica nutrição em Manaus </title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="script.js">
+<link rel="stylesheet" href="">
 </head>
 <body>
 <!-- TOPBAR -->
@@ -442,5 +442,27 @@
     <span>© 2023 nutrição &amp; Estética</span>
   </div>
 </footer>
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const page = document.getElementById('page-' + id);
+    if (page) page.classList.add('active');
+
+    document.querySelectorAll('.nav-links a[data-page]').forEach(a => {
+      a.classList.toggle('active', a.dataset.page === id);
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const nav = document.getElementById('main-nav');
+    nav.classList.remove('open');
+
+    return false;
+  }
+
+  function toggleMenu() {
+    document.getElementById('main-nav').classList.toggle('open');
+  }
+</script>
 </body>
 </html>
